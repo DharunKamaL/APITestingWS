@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "92e5161f-9f8d-4cc1-a03a-75c82225dc0f",
+		"name": "GraphQLSample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26749734",
+		"_collection_link": "https://grey-crater-582642.postman.co/workspace/My-Workspace~8a56ff90-e0e4-4037-8b76-c7e32b078567/collection/26749734-92e5161f-9f8d-4cc1-a03a-75c82225dc0f?action=share&creator=26749734&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Query",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "\r\n\r\nquery($id:Int!){\r\n  location(locationId:$id){\r\n    id\r\n    name\r\n    type\r\n    dimension\r\n    created\r\n  }\r\n}\r\n\r\n",
+						"variables": "{\r\n  \"id\":2649\r\n}"
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/gq/graphql",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"gq",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mutations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation($epiName:String!,$launchDate:String!,$episodeID:String!){\r\n  createEpisode(episode:{name:$epiName,air_date:$launchDate,episode:$episodeID}){\r\n    id\r\n  }\r\n}",
+						"variables": "{\r\n  \"epiName\":\"Into the world of Dark\",\r\n  \"launchDate\":\"23.10.2001\",\r\n  \"episodeID\":\"25\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/gq/graphql",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"gq",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

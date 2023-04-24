@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "161fe374-5ee9-481f-bde8-4a19cf072a37",
+		"name": "End2EndFlows",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26749734",
+		"_collection_link": "https://grey-crater-582642.postman.co/workspace/My-Workspace~8a56ff90-e0e4-4037-8b76-c7e32b078567/collection/26749734-161fe374-5ee9-481f-bde8-4a19cf072a37?action=share&creator=26749734&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"const access_token = jsonData.token;\r",
+							"const user_ID = jsonData.userId;\r",
+							"pm.collectionVariables.set(\"token\", access_token);\r",
+							"pm.collectionVariables.set(\"userID\",user_ID);\r",
+							"\r",
+							"pm.test(\"Validate Status code\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate Login Sucess\", ()=>{\r",
+							"    pm.expect(pm.response.text()).to.include(\"Successfully\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userEmail\": \"{{email}}\", \r\n    \"userPassword\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/api/ecom/auth/login",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"pm.collectionVariables.set(\"orderID\",jsonData.orders);\r",
+							"\r",
+							"pm.test(\"Validate status code\", ()=>{\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate response time\", ()=>{\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate successfull order\",()=>{\r",
+							"    pm.expect(pm.response.text()).to.include(\"Successfully\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orders\": [\r\n        {\"country\": \"India\",\r\n         \"productOrderedId\": \"{{productID}}\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/api/ecom/order/create-order",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"order",
+						"create-order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view order details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"const productID = jsonData.productOrderedId;\r",
+							"\r",
+							"pm.test(\"Validate status code is 200\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate the product ordered\",()=>{\r",
+							"    pm.expect(productID).to.eql(pm.collectionVariables.get(\"productID\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate success message\", ()=>{\r",
+							"    pm.expect(pm.response.text()).to.include(\"Successfully\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://rahulshettyacademy.com/api/ecom/order/get-orders-details?id={{productID}}",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"order",
+						"get-orders-details"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{productID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "email",
+			"value": "cowibaneumme-9751@yopmail.com",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "DkVk2315",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "productID",
+			"value": "6262e9d9e26b7e1a10e89c04",
+			"type": "string"
+		},
+		{
+			"key": "orderID",
+			"value": ""
+		}
+	]
+}

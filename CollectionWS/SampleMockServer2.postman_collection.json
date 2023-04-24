@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "7c380838-eeca-4143-beca-a6addf469859",
+		"name": "SampleMockServer2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26749734",
+		"_collection_link": "https://grey-crater-582642.postman.co/workspace/My-Workspace~8a56ff90-e0e4-4037-8b76-c7e32b078567/collection/26749734-7c380838-eeca-4143-beca-a6addf469859?action=share&creator=26749734&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "getCourses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"const schema = {",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"data\": {",
+							"      \"type\": \"array\",",
+							"      \"items\": [",
+							"        {",
+							"          \"type\": \"object\",",
+							"          \"properties\": {",
+							"            \"course\": {",
+							"              \"type\": \"string\"",
+							"            },",
+							"            \"price\": {",
+							"              \"type\": \"integer\"",
+							"            },",
+							"            \"category\": {",
+							"              \"type\": \"string\"",
+							"            }",
+							"          },",
+							"          \"required\": [",
+							"            \"course\",",
+							"            \"price\",",
+							"            \"category\"",
+							"          ]",
+							"        }",
+							"      ]",
+							"    }",
+							"  },",
+							"  \"required\": [",
+							"    \"data\"",
+							"  ]",
+							"}",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 2000ms\", function (){",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"",
+							"jsonData.data.forEach(function(item){",
+							"    if(item.course==\"Postman\"){",
+							"        pm.globals.set(\"course\",item.course);",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"schema validation\", ()=>{",
+							"    pm.response.to.have.jsonSchema(schema);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/getCourses",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getCourses"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/getCourses",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"getCourses"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"course\": \"Postman\",\n            \"price\": 150,\n            \"category\": \"Javascript\"\n        },\n        {\n            \"course\": \"SoapUI\",\n            \"price\": 25,\n            \"category\": \"Groovy\"\n        },\n        {\n            \"course\": \"RestAssured\",\n            \"price\": 100,\n            \"category\": \"Java\"\n        },\n        {\n            \"course\": \"RestAssured\",\n            \"price\": 100,\n            \"category\": \"Java\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "getSpecificCourseDetails",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 2000ms\", function (){",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"",
+							"pm.test(\"Postman student count greater than 10000\", ()=>{",
+							"    pm.expect(jsonData.students>10000).to.be.true;",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/getCoursedetails?name={{course}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getCoursedetails"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{course}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "getSpecificCourseDetails",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/getCoursedetails?name={{course}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"getCoursedetails"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{course}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\r\n    \"name\": \"postman\",\r\n    \"category\": \"javascript\",\r\n    \"content\": \"videos\",\r\n    \"length\": \"15hours\",\r\n    \"students\": 12342\r\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://c9ee6f3a-74d9-42c8-9828-ef986f05ff2c.mock.pstmn.io"
+		}
+	]
+}

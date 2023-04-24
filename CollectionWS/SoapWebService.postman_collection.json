@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "d6fb6814-1b1c-45a2-a601-d8469d546ff7",
+		"name": "SoapWebService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26749734",
+		"_collection_link": "https://grey-crater-582642.postman.co/workspace/My-Workspace~8a56ff90-e0e4-4037-8b76-c7e32b078567/collection/26749734-d6fb6814-1b1c-45a2-a601-d8469d546ff7?action=share&creator=26749734&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "NumberToWords",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"const response = xml2Json(pm.response.text());",
+							"const actualResult = response[\"soap:Envelope\"][\"soap:Body\"][\"m:NumberToWordsResponse\"][\"m:NumberToWordsResult\"];",
+							"const expectedResult = pm.collectionVariables.get(\"ans\");",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 2000ms\", function (){",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"",
+							"pm.test(\"Parsing Method\", ()=>{",
+							"    pm.expect(pm.response.text()).to.include(expectedResult);",
+							"});",
+							"",
+							"pm.test(\"Result Validation\", ()=>{",
+							"    pm.expect(actualResult).to.eql(expectedResult);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/soap+xml; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soap12:Envelope xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <NumberToWords xmlns=\"http://www.dataaccess.com/webservicesserver/\">\r\n      <ubiNum>{{value}}</ubiNum>\r\n    </NumberToWords>\r\n  </soap12:Body>\r\n</soap12:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://www.dataaccess.com/webservicesserver/numberconversion.wso",
+					"protocol": "https",
+					"host": [
+						"www",
+						"dataaccess",
+						"com"
+					],
+					"path": [
+						"webservicesserver",
+						"numberconversion.wso"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NumberToDollars",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function (){\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validating ans\", ()=>{\r",
+							"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"answer\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/soap+xml; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soap12:Envelope xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <NumberToDollars xmlns=\"http://www.dataaccess.com/webservicesserver/\">\r\n      <dNum>{{val}}</dNum>\r\n    </NumberToDollars>\r\n  </soap12:Body>\r\n</soap12:Envelope>"
+				},
+				"url": {
+					"raw": "https://www.dataaccess.com/webservicesserver/numberconversion.wso?op=NumberToDollars",
+					"protocol": "https",
+					"host": [
+						"www",
+						"dataaccess",
+						"com"
+					],
+					"path": [
+						"webservicesserver",
+						"numberconversion.wso"
+					],
+					"query": [
+						{
+							"key": "op",
+							"value": "NumberToDollars"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "value",
+			"value": "400",
+			"type": "string"
+		},
+		{
+			"key": "ans",
+			"value": "four hundred",
+			"type": "string"
+		},
+		{
+			"key": "val",
+			"value": "100",
+			"type": "string"
+		},
+		{
+			"key": "answer",
+			"value": "one hundred dollars",
+			"type": "string"
+		}
+	]
+}
